@@ -60,17 +60,17 @@ def widget_view(request):
     context['form'] = form 
     return render(request, "widget_home.html", context) 
 
-def registro_view(request): 
-    if request.method == "POST": 
-        form = RegistroUsuarioForm(request.POST) 
-        if form.is_valid(): 
-            user = form.save() 
-            login(request, user) 
-            messages.success(request, "Registrado Satisfactoriamente." ) 
-
-        return HttpResponseRedirect('/menu')   
-    messages.error(request, "Registro invalido. Algunos datos ingresados no son correctos") 
-
-    form = RegistroUsuarioForm() 
-    return render (request=request, 
-        template_name="registration/registro.html", context={"register_form":form})
+def registro_view(request):
+    if request.method == "POST":
+        form = RegistroUsuarioForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registrado Satisfactoriamente.")
+            return HttpResponseRedirect('/menu')
+        else:
+            messages.error(request, "Registro invalido. Algunos datos ingresados no son correctos.")
+    else:
+        form = RegistroUsuarioForm()
+        
+    return render(request=request, template_name="registration/registro.html", context={"register_form": form})
